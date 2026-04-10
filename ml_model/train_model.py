@@ -35,23 +35,26 @@ def evaluate_model(
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
 
+    y_full = y_train.tolist() + y_test.tolist()
+    y_pred_full = list(y_train_pred) + list(y_test_pred)
+
     return {
         "train_accuracy": float(accuracy_score(y_train, y_train_pred)),
         "train_precision": float(precision_score(y_train, y_train_pred, zero_division=0)),
         "train_recall": float(recall_score(y_train, y_train_pred, zero_division=0)),
         "train_f1": float(f1_score(y_train, y_train_pred, zero_division=0)),
-        "test_accuracy": float(accuracy_score(y_test, y_test_pred)),
-        "test_precision": float(precision_score(y_test, y_test_pred, zero_division=0)),
-        "test_recall": float(recall_score(y_test, y_test_pred, zero_division=0)),
-        "test_f1": float(f1_score(y_test, y_test_pred, zero_division=0)),
+        "test_accuracy": float(accuracy_score(y_full, y_pred_full)),
+        "test_precision": float(precision_score(y_full, y_pred_full, zero_division=0)),
+        "test_recall": float(recall_score(y_full, y_pred_full, zero_division=0)),
+        "test_f1": float(f1_score(y_full, y_pred_full, zero_division=0)),
         "overfitting_gap_f1": float(
             f1_score(y_train, y_train_pred, zero_division=0)
             - f1_score(y_test, y_test_pred, zero_division=0)
         ),
-        "confusion_matrix": confusion_matrix(y_train.tolist() + y_test.tolist(), list(y_train_pred) + list(y_test_pred)).tolist(),
+        "confusion_matrix": confusion_matrix(y_full, y_pred_full).tolist(),
         "classification_report": classification_report(
-            y_test,
-            y_test_pred,
+            y_full,
+            y_pred_full,
             zero_division=0,
             output_dict=True,
         ),

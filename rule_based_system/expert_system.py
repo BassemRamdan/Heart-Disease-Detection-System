@@ -64,9 +64,7 @@ def run_expert_evaluation(
         missing_str = ", ".join(missing)
         raise ValueError(f"Dataset is missing required columns: {missing_str}")
 
-    # Keep comparison fair: same split style used in ml_model/train_model.py.
-    _, test_df = train_test_split(df, test_size=test_size, random_state=random_state)
-    predictions, risk_levels, actuals = _evaluate_rows(test_df)
+    predictions, risk_levels, actuals = _evaluate_rows(df)
 
     accuracy = float(accuracy_score(actuals, predictions))
     precision = float(precision_score(actuals, predictions, zero_division=0))
@@ -78,7 +76,7 @@ def run_expert_evaluation(
         "precision": precision,
         "recall": recall,
         "f1": f1,
-        "test_size": int(len(test_df)),
+        "test_size": int(len(df)),
         "split": {"test_size": test_size, "random_state": random_state},
     }
 
@@ -86,7 +84,7 @@ def run_expert_evaluation(
     with metrics_path.open("w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
 
-    out_df = test_df.copy()
+    out_df = df.copy()
     out_df["expert_risk_level"] = risk_levels
     out_df["expert_system_prediction"] = predictions
     predictions_path.parent.mkdir(parents=True, exist_ok=True)
