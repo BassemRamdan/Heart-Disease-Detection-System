@@ -128,7 +128,50 @@
             border: 1px dashed #ccc;
             display: inline-block;
         }
-    </style>
+    
+        .confusion-matrix-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            text-align: center;
+            font-size: 1.1em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .confusion-matrix-table th, .confusion-matrix-table td {
+            border: 2px solid var(--primary);
+            padding: 20px;
+            width: 120px;
+        }
+
+        .confusion-matrix-table th {
+            background-color: var(--light);
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .true-positive, .true-negative {
+            background-color: #d4edda !important;
+            color: #155724;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
+
+        .false-positive, .false-negative {
+            background-color: #f8d7da !important;
+            color: #721c24;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
+
+        .cm-labels-y {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            white-space: nowrap;
+            border: none !important;
+            background: transparent !important;
+            font-size: 1.2em;
+        }
+</style>
 </head>
 <body>
 
@@ -139,8 +182,8 @@
         <div class="meta-data">
             <h3>Team Members</h3>
             <ul>
-                <li>Bassem Ramdan Ebrahim</li>
-                <li>Mosab AbdelHady Soliman</li>
+                <li>Bassem Ramdan</li>
+                <li>Mosab AbdelHady</li>
                 <li>Ramez Bassem</li>
                 <li>Habiba Ahmed</li>
             </ul>
@@ -209,10 +252,30 @@ Rule 4: If Major Vessels Colored (ca) >= 2 -> High Risk...
         </ul>
 
         <h4>Confusion Matrix (Full Scale):</h4>
-        <div class="matrix">
-            [[132,&nbsp;&nbsp; 8] <br>
-            &nbsp;[&nbsp;&nbsp;4, 161]]
-        </div>
+        <table class="confusion-matrix-table">
+            <tr>
+                <td style="border: none; background: transparent;"></td>
+                <td style="border: none; background: transparent;"></td>
+                <th colspan="2" style="font-size: 1.2em;">Predicted Class</th>
+            </tr>
+            <tr>
+                <td style="border: none; background: transparent;"></td>
+                <td style="border: none; background: transparent;"></td>
+                <th>High Risk (0)</th>
+                <th>Normal (1)</th>
+            </tr>
+            <tr>
+                <th rowspan="2" class="cm-labels-y">Actual Class</th>
+                <th>High Risk (0)</th>
+                <td class="true-positive">132<br><span style="font-size:0.6em; font-weight:normal; color:#333;">True Positive</span></td>
+                <td class="false-negative">8<br><span style="font-size:0.6em; font-weight:normal; color:#333;">False Negative</span></td>
+            </tr>
+            <tr>
+                <th>Normal (1)</th>
+                <td class="false-positive">4<br><span style="font-size:0.6em; font-weight:normal; color:#333;">False Positive</span></td>
+                <td class="true-negative">161<br><span style="font-size:0.6em; font-weight:normal; color:#333;">True Negative</span></td>
+            </tr>
+        </table>
     </section>
 
     <section>
